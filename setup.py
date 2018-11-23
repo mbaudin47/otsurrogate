@@ -25,12 +25,12 @@ except ImportError:
         pip.main(['install', 'scipy', '--user'])
 
 setup_requires = ['pytest-runner']
-tests_require = ['pytest', 'mock', 'coverage', 'pylint']
+tests_require = ['pytest', 'coverage']
 install_requires = ['scipy>=0.15',
                     'numpy>=1.13',
                     'pandas>=0.22.0',
                     'matplotlib>=2.1',
-                    # 'openturns>=1.10',
+                    'openturns>=1.10',
                     'pathos>=0.2',
                     'scikit-learn>=0.18']
 extras_require = {'doc': ['sphinx>=1.4', 'nbsphinx', 'jupyter', 'jupyter_client']}
