@@ -30,7 +30,7 @@ install_requires = ['scipy>=0.15',
                     'numpy>=1.13',
                     'pandas>=0.22.0',
                     'matplotlib>=2.1',
-                    'openturns>=1.10',
+                    'openturns',
                     'pathos>=0.2',
                     'scikit-learn>=0.18']
 extras_require = {'doc': ['sphinx>=1.4', 'nbsphinx', 'jupyter', 'jupyter_client']}

@@ -73,11 +73,11 @@ class TestMixture:
     def test_vect(self, mascaret_data, seed):
         sample = mascaret_data.space
         data = mascaret_data.target_space
-        corners = sample.corners
+        corners = mascaret_data.corners
         algo = Mixture(sample, data, corners, fsizes=3)
-        results = algo.evaluate([[20, 4000], [50, 1000]])
-        npt.assert_almost_equal(results[0], [[27.42, 26.43, 25.96],
-                                             [22.33, 21.22, 20.89]], decimal=2)
+        results = algo.evaluate([[30, 4000]])
+        npt.assert_almost_equal(results[0], [[ 2.01,  1.75, -8.56]],
+                                decimal=2)
 
         assert 1 in algo.indice_clt[0]
         assert 0 in algo.indice_clt[1]
@@ -94,7 +94,7 @@ class TestMixture:
         sample = g_function_data.space
         data = g_function_data.target_space
         data[:5] *= 10
-        corners = np.array(sample.corners)
+        corners = np.array(g_function_data.corners)
 
         # 4D
         algo = Mixture(sample, data, corners, fsizes=1)

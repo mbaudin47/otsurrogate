@@ -32,7 +32,9 @@ jobs:
       # run tests!
       - run:
           name: run tests
+          no_output_timeout: 10h
           command: |
+            export MPLBACKEND="Agg"
             coverage run -m pytest .
             coverage html
             mkdir test-reports

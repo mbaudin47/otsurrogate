@@ -22,6 +22,7 @@ Interpolation using regressors from Scikit-Learn.
 import logging
 import warnings
 import numpy as np
+import sklearn.ensemble
 from ..misc import (NestedPool, cpu_system, multi_eval)
 
 
