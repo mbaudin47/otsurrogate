@@ -13,9 +13,7 @@ def pod_(tolerance=1, dim_max=3):
     snapshots = np.array([[37., 40., 41., 49., 42., 46., 45., 48.],
                           [40., 43., 47., 46., 41., 46., 45., 48.],
                           [40., 41., 42., 45., 44., 46., 45., 47.]])
-    pod = Pod([[30, 30, 30], [40, 40, 40]], tolerance, dim_max)
-    # pod._fit(snapshots)
-
+    pod = Pod([[1], [8]], tolerance, dim_max)
     pod.fit(sample=[[1], [2], [3], [4], [5], [6], [7], [8]],
             data=snapshots.T)
 
@@ -29,7 +27,7 @@ def test_pod(pod, tmp):
 
     pod.write(tmp)
 
-    pod2 = Pod([[30, 30, 30], [40, 40, 40]], 1, 3)
+    pod2 = Pod([[1], [8]], 1, 3)
     pod2.read(tmp)
     npt.assert_almost_equal(pod2.mean_snapshot, [43.5, 44.5, 43.75], decimal=1)
     npt.assert_almost_equal(pod2.S, [14.003, 4.747, 2.208], decimal=3)
@@ -68,7 +66,7 @@ def test_update(pod):
                           [40., 43., 47., 46., 41., 46., 45., 48.],
                           [40., 41., 42., 45., 44., 46., 45., 47.]])
 
-    pod_empty = Pod([[30, 30, 30], [40, 40, 40]], 1, 3)
+    pod_empty = Pod([[1], [8]], 1, 3)
     pod_empty.update(sample=[[1], [2], [3], [4], [5], [6], [7], [8]],
                      data=snapshots.T)
 
@@ -78,7 +76,7 @@ def test_update(pod):
     npt.assert_almost_equal(abs(pod.V), abs(pod_empty.V), decimal=3)
     npt.assert_almost_equal(pod.mean_snapshot, [43.5, 44.5, 43.75], decimal=1)
 
-    pod_empty2 = Pod([[30, 30, 30], [40, 40, 40]], 1, 3)
+    pod_empty2 = Pod([[1], [8]], 1, 3)
     snapshots = np.array([[37., 40., 41., 49., 42., 46., 45., 48.],
                           [40., 43., 47., 46., 41., 46., 45., 48.],
                           [40., 41., 42., 45., 44., 46., 45., 47.]])
@@ -95,7 +93,7 @@ def test_downsample(pod):
                           [40., 43., 47., 46., 41., 46., 45.],
                           [40., 41., 42., 45., 44., 46., 45.]])
 
-    pod_downsampled = Pod([[30, 30, 30], [40, 40, 40]], 1, 3)
+    pod_downsampled = Pod([[1], [8]], 1, 3)
     pod_downsampled._fit(snapshots)
 
     V_1 = np.delete(pod.V, 7, 0)
@@ -114,3 +112,9 @@ def test_inverse(pod):
     inv_modes = pod.inverse_transform([[4.602, -0.73, -0.592],
                                        [1.575, -3.615, 0.121]])
     npt.assert_almost_equal(inv_modes, [[40, 43, 41], [41, 47, 42]], decimal=3)
+
+
+def test_quality(pod):
+    quality, point = pod.estimate_quality()
+    npt.assert_almost_equal(quality, -0.646, decimal=2)
+    assert point == [1]
