@@ -6,5 +6,4 @@ Examples of the API
 .. toctree::
     :maxdepth: 1
 
-    TODO
-    .. surrogate.ipynb
+    sensitivity_sobol.ipynb

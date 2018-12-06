@@ -130,8 +130,8 @@ class SurrogateModel:
         :param pod: POD instance.
         :type pod: :class:`batman.pod.Pod`.
         """
-        self.data = data
-        sample = np.array(sample)
+        sample = np.asarray(sample)
+        self.data = np.asarray(data)
         if self.kind != 'evofusion':
             sample_scaled = self.scaler.transform(sample)
         else:
@@ -140,17 +140,17 @@ class SurrogateModel:
         # predictor object
         self.logger.info('Creating predictor of kind {}...'.format(self.kind))
         if self.kind == 'rbf':
-            self.predictor = RBFnet(sample_scaled, data)
+            self.predictor = RBFnet(sample_scaled, self.data)
         elif self.kind == 'kriging':
-            self.predictor = Kriging(sample_scaled, data, **self.settings)
+            self.predictor = Kriging(sample_scaled, self.data, **self.settings)
         elif self.kind == 'pc':
-            self.predictor.fit(sample, data)
+            self.predictor.fit(sample, self.data)
         elif self.kind == 'evofusion':
-            self.predictor = Evofusion(sample_scaled, data)
+            self.predictor = Evofusion(sample_scaled, self.data)
         elif self.kind == 'mixture':
-            self.predictor = Mixture(sample, data, **self.settings)
+            self.predictor = Mixture(sample, self.data, **self.settings)
         else:
-            self.predictor = SklearnRegressor(sample_scaled, data, self.kind)
+            self.predictor = SklearnRegressor(sample_scaled, self.data, self.kind)
 
         self.pod = pod
         self.space = sample

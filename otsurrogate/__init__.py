@@ -3,6 +3,10 @@ otsurrogate package
 *******************
 """
 import openturns as ot
-ot.RandomGenerator.SetSeed(123456)
+from .surrogate import SurrogateModel
+from .pod import Pod
 
+__all__ = ['SurrogateModel', 'Pod']
 __version__ = '1'
+
+ot.RandomGenerator.SetSeed(123456)
