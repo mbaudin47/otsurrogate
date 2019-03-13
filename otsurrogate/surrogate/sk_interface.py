@@ -25,6 +25,12 @@ import numpy as np
 import sklearn.ensemble
 from ..misc import (NestedPool, cpu_system, multi_eval)
 
+try:
+    import otsklearn
+    have_otsklearn = True
+except ImportError:
+    have_otsklearn = False
+
 
 class SklearnRegressor:
     """Interface to Scikit-learn regressors."""
@@ -62,11 +68,17 @@ class SklearnRegressor:
             self.logger.debug('Regressor info:\n{}'.format(regressor.get_params))
         except AttributeError:
             # Instanciate regressor from str
+
+            safe_ = {'sklearn': __import__('sklearn'),
+                     'sklearn.ensemble': __import__('sklearn.ensemble')}
+            if have_otsklearn:
+                safe_.update({'otsklearn': __import__('otsklearn')})
+
             try:
-                regressor = eval('ske.' + regressor, {'__builtins__': None},
-                                 {'ske': __import__('sklearn').ensemble})
+                regressor = eval(regressor, {'__builtins__': None}, safe_)
             except (TypeError, AttributeError):
-                raise AttributeError('Regressor unknown from sklearn.')
+                raise AttributeError("Regressor '{}' unknown from (ot)sklearn."
+                                     .format(regressor))
 
             self.logger.debug('Regressor info:\n{}'.format(regressor.get_params))
 

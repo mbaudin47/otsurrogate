@@ -96,7 +96,7 @@ class Test1d:
         npt.assert_almost_equal(ishigami_data.target_space, pred, decimal=1)
 
         # From a str
-        regressor = 'RandomForestRegressor()'
+        regressor = 'sklearn.ensemble.RandomForestRegressor()'
         surrogate = SklearnRegressor(ishigami_data.space, ishigami_data.target_space,
                                      regressor)
 
@@ -177,7 +177,7 @@ class TestNd:
         assert q2 == pytest.approx(1, 0.1)
 
     def test_sk_regressors_nd(self, mascaret_data):
-        regressor = 'RandomForestRegressor()'
+        regressor = 'sklearn.ensemble.RandomForestRegressor()'
         surrogate = SklearnRegressor(mascaret_data.space, mascaret_data.target_space,
                                      regressor)
 
